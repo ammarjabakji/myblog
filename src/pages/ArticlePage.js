@@ -1,16 +1,39 @@
-import React, { Component } from 'react'
 
-export class ArticlePage extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Simple Article</h1>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae repellendus consequatur officiis eius in nostrum tempora ab reprehenderit sint, atque facere. Ex commodi magni hic dolore architecto repellat quod! Provident?</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae repellendus consequatur officiis eius in nostrum tempora ab reprehenderit sint, atque facere. Ex commodi magni hic dolore architecto repellat quod! Provident?</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae repellendus consequatur officiis eius in nostrum tempora ab reprehenderit sint, atque facere. Ex commodi magni hic dolore architecto repellat quod! Provident?</p>
-            </div>
-        )
-    }
+import React from 'react'
+import ArticlesList from '../components/ArticlesList'
+import NotFoundPage from './NotFoundPage'
+import articleContent from './article-content'
+
+
+
+const ArticlePage = ({ match }) => {
+//    console.log(match);
+    const name = match.params.name;
+    const article = articleContent.find(article => article.name === name);
+
+    const otherArticles = articleContent.filter(article => article.name !== name);
+
+    // if(!article) return <h1> Article does not exist!</h1>
+    if (!article) return <NotFoundPage />
+    
+    return (
+        <>
+            <h1>{ article.title }</h1>
+            { article.content.map((paragraph, key) => (
+                
+                    <p key={ key }>{ paragraph }</p>
+                )
+                
+            )}
+            <h3>Other Articles:</h3>
+            <ArticlesList articles={otherArticles} />       
+        </>
+    )
 }
 
 export default ArticlePage
+
+
+
+
+
